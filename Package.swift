@@ -22,7 +22,7 @@ let package = Package(
             .upToNextMajor(from: "1.2.0")),
         .package(
             url: "https://github.com/apple/swift-format.git",
-            .upToNextMajor(from: "509.0.0"))
+            .upToNextMajor(from: "509.0.0")),
     ],
     targets: [
         .executableTarget(

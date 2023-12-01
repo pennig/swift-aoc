@@ -1,12 +1,12 @@
-import Algorithms
+import Foundation
 
 struct Day00: AdventDay {
   // Save your data in a corresponding text file in the `Data` directory.
-  var data: String
+  var data: Data
 
   // Splits input data into its component parts and convert from string.
   var entities: [[Int]] {
-    data.split(separator: "\n\n").map {
+      String(data: data, encoding: .utf8)!.split(separator: "\n\n").map {
       $0.split(separator: "\n").compactMap { Int($0) }
     }
   }
