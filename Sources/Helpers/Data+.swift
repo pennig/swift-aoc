@@ -18,8 +18,8 @@ extension Data {
     }
 
     func stringGroups() -> [[String]] {
-        withUnsafeBytes { bytes -> [[String]] in
-            bytes.split(separator: UInt8(ascii: "\n"), omittingEmptySubsequences: false)
+        withUnsafeBytes {
+            $0.split(separator: UInt8(ascii: "\n"), omittingEmptySubsequences: false)
                 .split(whereSeparator: { $0.isEmpty })
                 .map {
                     $0.map {
