@@ -1,18 +1,15 @@
 import Foundation
 import Parsing
+import RegexBuilder
 
 struct Day02: AdventDay {
     var data: Data
-
-    init(data: Data) {
-        self.data = data
-    }
-
+    
     var games: [Int: Game] {
         Dictionary(uniqueKeysWithValues:
             try! data.substrings().map {
                 var line = $0.utf8
-                return try part1Parser.parse(&line)
+                return try parser.parse(&line)
             }
         )
     }
@@ -26,15 +23,8 @@ struct Day02: AdventDay {
     }
 }
 
-enum Color: String, CaseIterable {
-    case red
-    case green
-    case blue
-}
 struct Grab {
-    var red = 0
-    var green = 0
-    var blue = 0
+    var red = 0, green = 0, blue = 0
 }
 struct Game {
     let grabs: [Grab]
@@ -56,29 +46,22 @@ struct Game {
     }
 }
 
-let part1Parser = Parse(input: Substring.UTF8View.self) {
+let parser = Parse(input: Substring.UTF8View.self) {
     "Game ".utf8; Int.parser(); ": ".utf8
     Many {
         Many {
             Int.parser()
             " ".utf8
             OneOf {
-                for c in Color.allCases {
-                    c.rawValue.utf8.map { c }
-                }
+                "red".utf8.map { \Grab.red }
+                "green".utf8.map { \Grab.green }
+                "blue".utf8.map { \Grab.blue }
             }
         } separator: {
             ", ".utf8
         }.map {
             $0.reduce(into: Grab()) { out, pair in
-                switch pair.1 {
-                case .red:
-                    out.red += pair.0
-                case .green:
-                    out.green += pair.0
-                case .blue:
-                    out.blue += pair.0
-                }
+                out[keyPath: pair.1] += pair.0
             }
         }
     } separator: {
