@@ -31,7 +31,7 @@ struct Day03: AdventDay {
             // - this line
             // - the previous line
             // - the next line
-            var ranges = row.numberRanges.filter { n in
+            let ranges = row.numberRanges.filter { n in
                 if row.symbolRanges.contains(where: { $0.adjacency.overlaps(n) }) {
                     return true
                 }

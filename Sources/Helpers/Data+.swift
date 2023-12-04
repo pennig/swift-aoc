@@ -17,6 +17,10 @@ extension Data {
         }
     }
 
+    func utf8views() -> [Substring.UTF8View] {
+        substrings().map(\.utf8)
+    }
+
     func stringGroups() -> [[String]] {
         withUnsafeBytes {
             $0.split(separator: UInt8(ascii: "\n"), omittingEmptySubsequences: false)
