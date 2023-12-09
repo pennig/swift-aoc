@@ -36,6 +36,6 @@ extension Data {
 
 extension String {
     var numbers: [Int] {
-        self.matches(of: #/\d+/#).compactMap { Int($0.output) }
+        self.matches(of: #/-?\d+/#).compactMap { Int($0.output) }
     }
 }
