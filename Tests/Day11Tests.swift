@@ -1,0 +1,23 @@
+import XCTest
+
+@testable import AdventOfCode
+
+final class Day11Tests: XCTestCase {
+    func testPart1() throws {
+        let testData = """
+        ...#......
+        .......#..
+        #.........
+        ..........
+        ......#...
+        .#........
+        .........#
+        ..........
+        .......#..
+        #...#.....
+        """.data(using: .utf8)!
+        let day = Day11(data: testData)
+
+        XCTAssertEqual(try day.part1() as! Int, 374)
+    }
+}
