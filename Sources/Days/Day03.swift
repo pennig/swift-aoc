@@ -64,15 +64,15 @@ struct Day03: AdventDay {
             // Grab the gear ("*") ranges, then assemble an array of the numbers that surround the gear
             let gears = row.symbolRanges.filter({ $0.char == "*" }).map(\.adjacency)
 
-            let numbers = gears.reduce(into: [[Int]]()) { out, range in
+            total += gears.reduce(0) { out, range in
                 var numbers = row.numberRanges.filter({ $0.overlaps(range) }).compactMap({ Int(row.string[$0]) })
-                guard numbers.count < 3 else { return }
+                guard numbers.count < 3 else { return out }
 
                 let prev = rows.index(before: index)
                 if rows.indices.contains(prev) {
                     numbers.append(contentsOf: rows[prev].numberRanges.filter({ $0.overlaps(range) }).compactMap({ Int(rows[prev].string[$0]) }))
                 }
-                guard numbers.count < 3 else { return }
+                guard numbers.count < 3 else { return out }
 
                 let next = rows.index(after: index)
                 if rows.indices.contains(next) {
@@ -80,12 +80,10 @@ struct Day03: AdventDay {
                 }
 
                 if numbers.count == 2 {
-                    out.append(numbers)
+                    return out + (numbers[0] * numbers[1])
                 }
+                return out
             }
-
-            if numbers.isEmpty { continue }
-            total += numbers.reduce(0) { $0 + $1.reduce(1, *) }
         }
 
         return total
