@@ -23,4 +23,21 @@ public extension IteratorProtocol {
     }
 }
 
+extension Array{
+    func columns<T>() -> [[T]] where Element == Array<T> {
+        guard let count = first?.count else { return [] }
+        return (0..<count).map { self[column: $0] }
+    }
 
+    subscript<T>(column c: Int) -> [T] where Element == Array<T> {
+        get {
+            map { $0[c] }
+        }
+        set {
+            precondition(newValue.count == count)
+            for i in self.indices {
+                self[i][c] = newValue[i]
+            }
+        }
+    }
+}

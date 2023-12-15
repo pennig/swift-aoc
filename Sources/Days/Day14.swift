@@ -81,40 +81,35 @@ struct Day14: AdventDay {
     }
 
     func shiftRocks(_ arr: inout Array<Cell>) {
-        var rocks = 0
         var insertionIndex = 0
         for i in (0..<arr.count) {
             switch arr[i] {
             case .none: continue
-            case.round: rocks += 1
+            case .round:
+                guard i > insertionIndex else { continue }
+                arr[i] = .none
+                arr[insertionIndex] = .round
+                insertionIndex += 1
             case .cube:
-                for r in (insertionIndex..<insertionIndex+rocks) { arr[r] = .round }
-                for n in (insertionIndex+rocks..<i) { arr[n] = .none }
-                insertionIndex = i+1
-                rocks = 0
+                insertionIndex = i + 1
             }
         }
-        for r in (insertionIndex..<insertionIndex+rocks) { arr[r] = .round }
-        for n in (insertionIndex+rocks..<arr.count) { arr[n] = .none }
     }
 
     func shiftRocksReverse(_ arr: inout Array<Cell>) {
-        var rocks = 0, insertionIndex = 0
-        for i in (0..<arr.count) {
+        var insertionIndex = arr.count - 1
+        for i in (0..<arr.count).reversed() {
             switch arr[i] {
             case .none: continue
-            case.round: rocks += 1
+            case .round:
+                guard i < insertionIndex else { continue }
+                arr[i] = .none
+                arr[insertionIndex] = .round
+                insertionIndex -= 1
             case .cube:
-                let nones = i - insertionIndex - rocks
-                for n in (insertionIndex..<insertionIndex+nones) { arr[n] = .none }
-                for r in (insertionIndex+nones..<i) { arr[r] = .round }
-                insertionIndex = i+1
-                rocks = 0
+                insertionIndex = i - 1
             }
         }
-        let nones = arr.count - insertionIndex - rocks
-        for n in (insertionIndex..<insertionIndex+nones) { arr[n] = .none }
-        for r in (insertionIndex+nones..<arr.count) { arr[r] = .round }
     }
 
     enum Cell {
@@ -131,25 +126,6 @@ struct Day14: AdventDay {
                     "#".utf8.map { Cell.cube }
                     ".".utf8.map { Cell.none }
                 }
-            }
-        }
-    }
-}
-
-extension Array{
-    func columns<T>() -> [[T]] where Element == Array<T> {
-        guard let count = first?.count else { return [] }
-        return (0..<count).map { self[column: $0] }
-    }
-
-    subscript<T>(column c: Int) -> [T] where Element == Array<T> {
-        get {
-            map { $0[c] }
-        }
-        set {
-            precondition(newValue.count == count)
-            for i in self.indices {
-                self[i][c] = newValue[i]
             }
         }
     }

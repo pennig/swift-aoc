@@ -6,7 +6,7 @@ struct Day12: AdventDay {
     var data: Data
 
     func part1() async throws -> Any {
-        let rows = try data.substrings().map { var line = $0.utf8; return try Day12.parser().parse(&line) }
+        let rows = try data.parseLines(Day12.parser())
         return await withTaskGroup(of: Int.self) { group in
             for row in rows {
                 group.addTask { row.possibilities() }
@@ -16,7 +16,7 @@ struct Day12: AdventDay {
     }
 
     func part2() async throws -> Any {
-        let rows = try data.substrings().map { var line = $0.utf8; return try Day12.parser().parse(&line) }
+        let rows = try data.parseLines(Day12.parser())
         return await withTaskGroup(of: Int.self) { group in
             for row in rows {
                 group.addTask { row.evenMorePossibilities() }
@@ -124,11 +124,7 @@ struct Day12: AdventDay {
                 }
             }
             " ".utf8
-            Many {
-                Int.parser()
-            } separator: {
-                ",".utf8
-            }
+            Many { Int.parser() } separator: { ",".utf8 }
         }.map(Row.init)
     }
 }
