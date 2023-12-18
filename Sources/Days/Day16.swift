@@ -108,7 +108,7 @@ struct Day16: AdventDay {
             default: .none
             }
         }
-        
+
         private static let leftDestination = [Direction.left]
         private static let rightDestination = [Direction.right]
         private static let upDestination = [Direction.up]
