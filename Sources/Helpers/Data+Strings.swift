@@ -17,6 +17,10 @@ extension Data {
         }
     }
 
+    func utf8view() -> Substring.UTF8View {
+        String(data: self, encoding: .utf8)![...].utf8
+    }
+    
     func utf8views() -> [Substring.UTF8View] {
         substrings().map(\.utf8)
     }
