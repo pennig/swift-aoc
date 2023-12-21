@@ -24,11 +24,11 @@ final class Day19Tests: XCTestCase {
     """.data(using: .utf8)!
 
     func testPart1() async throws {
-        XCTAssertEqual(try Day19(data: testData).part1(), 19114)
+        XCTAssertEqual(try Day19(data: testData).part1() as! Int, 19114)
     }
 
     func testPart2() async throws {
-        XCTAssertEqual(try Day19(data: testData).part2(), 167409079868000)
+        XCTAssertEqual(try Day19(data: testData).part2() as! Int, 167409079868000)
     }
 }
 
